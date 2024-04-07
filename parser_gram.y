@@ -53,6 +53,7 @@
 #include "eventgen.h"
 #include "aslr.h"
 #include "multi_client_sync.h"
+#include "fb_vdrive.h"
 
 /* yacc and lex externals */
 extern FILE *yyin;
@@ -1451,26 +1452,37 @@ worker_mode(struct fbparams *fbparams)
 		exit(1);
 	}
 
+	ret = fb_vdrive_init();
+	if (ret) {
+		exit(1);
+	}
+
 	/* get correct function pointer for each working process */
 	flowop_init(0);
 
 	/* load custom variable libraries and revalidate handles */
 	ret = init_cvar_libraries();
-	if (ret)
+	if (ret) {
+		fb_vdrive_shutdown();
 		exit(1);
+	}
 
 	ret = revalidate_cvar_handles();
-	if (ret)
+	if (ret) {
+		fb_vdrive_shutdown();
 		exit(1);
+	}
 
 	/* execute corresponding procflow */
 	ret = procflow_exec(fbparams->procname, fbparams->instance);
 	if (ret < 0) {
 		filebench_log(LOG_FATAL, "Cannot startup process %s",
 		    fbparams->procname);
+		fb_vdrive_shutdown();
 		exit(1);
 	}
 
+	fb_vdrive_shutdown();
 	exit(0);
 }
 
@@ -1584,11 +1596,19 @@ master_mode(struct fbparams *fbparams) {
 
 	ipc_init();
 
+	ret = fb_vdrive_init();
+	if (ret) {
+		filebench_log(LOG_FATAL,
+			"Error %i initializing vdrive", ret);
+		filebench_shutdown(1);
+	}
+
 	/* Below we initialize things that depend on IPC */
 	(void)strcpy(filebench_shm->shm_fscriptname,
 				fbparams->fscriptname);
 
 	flowop_init(1);
+
 	eventgen_init();
 
 	/* Initialize custom variables. */

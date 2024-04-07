@@ -571,6 +571,11 @@ flowop_init(int ismaster)
 	case NFS4_PLUG:
 	case CIFS_PLUG:
 		break;
+	case VDRIVE_PLUG:
+		fb_vdrive_funcvecinit();
+		break;
+	default:
+		printf("Unknown file system %u\n", filebench_shm->shm_filesys_type);
 	}
 }
 

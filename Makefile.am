@@ -10,7 +10,7 @@ filebench_SOURCES = eventgen.c fb_avl.c fb_localfs.c \
 		    fb_random.c fileset.c flowop.c flowop_library.c \
 		    gamma_dist.c ipc.c misc.c multi_client_sync.c \
 		    parser_gram.y parser_lex.l procflow.c stats.c \
-		    threadflow.c utils.c vars.c ioprio.c \
+		    threadflow.c utils.c vars.c ioprio.c fb_vdrive.c \
 		    eventgen.h  fb_random.h  fileset.h  fsplug.h \
 		    ipc.h   multi_client_sync.h  parsertypes.h  stats.h \
 		    utils.h config.h fb_avl.h filebench.h flowop.h gamma_dist.h \
@@ -18,6 +18,9 @@ filebench_SOURCES = eventgen.c fb_avl.c fb_localfs.c \
 		    fbtime.c fbtime.h \
 		    fb_cvar.c fb_cvar.h aslr.c aslr.h \
 		    cvars/mtwist/mtwist.c cvars/mtwist/mtwist.h
+
+INCLUDES = -I ../cpu
+LIBS += ../cpu/libvirtiofs-cpu.a
 
 EXTRA_DIST = LICENSE
 

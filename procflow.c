@@ -35,6 +35,7 @@
 #include "flowop.h"
 #include "ipc.h"
 #include "eventgen.h"
+#include "fb_vdrive.h"
 
 /* pid and procflow pointer for this process */
 pid_t my_pid;
@@ -428,6 +429,8 @@ procflow_cancel(int arg1)
 	procflow_sleep(my_procflow, SHUTDOWN_WAIT_SECONDS);
 
 	threadflow_delete_all(&my_procflow->pf_threads);
+
+	fb_vdrive_shutdown();
 
 	/* quit the main procflow thread and hence the process */
 	exit(0);
