@@ -319,6 +319,10 @@ flowoplib_fdnum(threadflow_t *threadflow, flowop_t *flowop)
 
 	if (fd > 0) {
 		filebench_log(LOG_DEBUG_IMPL, "picking explicitly set fd");
+		if (fd > THREADFLOW_MAXFD) {
+			filebench_log(LOG_ERROR, "explicitly set fd %d is larger than max %d", fd, THREADFLOW_MAXFD);
+			fd = -1;
+		}
 		goto retfd;
 	}
 
