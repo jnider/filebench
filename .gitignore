@@ -5,12 +5,30 @@ config.h
 config.log
 config.status
 stamp-h1
+INSTALL
+Makefile.in
+aclocal.m4
+compile
+config.guess
+config.h.in
+config.sub
+configure
+depcomp
+install-sh
+libtool
+ltmain.sh
+m4/
+missing
+workloads/Makefile.in
+ylwrap
 
 eventgen.o
 fb_avl.o
 fb_cvar.o
 fb_localfs.o
 fb_random.o
+fb_vdrive.o
+fbtime.o
 filebench
 fileset.o
 flowop.o
@@ -33,6 +51,13 @@ cvars/*.lo
 cvars/*.la
 
 cvars/.libs
+cvars/Makefile.in
+cvars/mtwist/.dirstamp
+cvars/mtwist/.libs/
+cvars/mtwist/mtwist.lo
+cvars/mtwist/mtwist.o
+cvars/mtwist/randistrs.lo
+cvars/mtwist/randistrs.o
 
 parser_gram.c
 parser_gram.h
